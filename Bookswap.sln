@@ -1,0 +1,58 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33209.295
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4E4E1946-8547-4978-B64B-AAD9AA692510}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookswap.API", "src\Bookswap.API\Bookswap.API.csproj", "{E7508DC2-B8CD-4A07-A43E-0B756976F57A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookswap.Domain", "src\Bookswap.Domain\Bookswap.Domain.csproj", "{D7C25094-1C84-4ED7-BA3A-6EDF92E451BD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookswap.Application", "src\Bookswap.Application\Bookswap.Application.csproj", "{C802A0EE-B0EE-4584-BE6F-60F72D222DDB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Bookswap.Infrastructure", "src\Bookswap.Infrastructure\Bookswap.Infrastructure.csproj", "{164071E8-A7A9-404A-9E0B-08D0594C4695}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bookswap.Test", "src\Bookswap.Test\Bookswap.Test.csproj", "{3D1CA151-E351-45E0-A43D-A05125285A60}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7508DC2-B8CD-4A07-A43E-0B756976F57A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7508DC2-B8CD-4A07-A43E-0B756976F57A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7508DC2-B8CD-4A07-A43E-0B756976F57A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7508DC2-B8CD-4A07-A43E-0B756976F57A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7C25094-1C84-4ED7-BA3A-6EDF92E451BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7C25094-1C84-4ED7-BA3A-6EDF92E451BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7C25094-1C84-4ED7-BA3A-6EDF92E451BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7C25094-1C84-4ED7-BA3A-6EDF92E451BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C802A0EE-B0EE-4584-BE6F-60F72D222DDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C802A0EE-B0EE-4584-BE6F-60F72D222DDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C802A0EE-B0EE-4584-BE6F-60F72D222DDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C802A0EE-B0EE-4584-BE6F-60F72D222DDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{164071E8-A7A9-404A-9E0B-08D0594C4695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{164071E8-A7A9-404A-9E0B-08D0594C4695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{164071E8-A7A9-404A-9E0B-08D0594C4695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{164071E8-A7A9-404A-9E0B-08D0594C4695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D1CA151-E351-45E0-A43D-A05125285A60}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D1CA151-E351-45E0-A43D-A05125285A60}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D1CA151-E351-45E0-A43D-A05125285A60}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D1CA151-E351-45E0-A43D-A05125285A60}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E7508DC2-B8CD-4A07-A43E-0B756976F57A} = {4E4E1946-8547-4978-B64B-AAD9AA692510}
+		{D7C25094-1C84-4ED7-BA3A-6EDF92E451BD} = {4E4E1946-8547-4978-B64B-AAD9AA692510}
+		{C802A0EE-B0EE-4584-BE6F-60F72D222DDB} = {4E4E1946-8547-4978-B64B-AAD9AA692510}
+		{164071E8-A7A9-404A-9E0B-08D0594C4695} = {4E4E1946-8547-4978-B64B-AAD9AA692510}
+		{3D1CA151-E351-45E0-A43D-A05125285A60} = {4E4E1946-8547-4978-B64B-AAD9AA692510}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {BE148853-38F6-4C7D-B85D-1AD47DF9A6BD}
+	EndGlobalSection
+EndGlobal
