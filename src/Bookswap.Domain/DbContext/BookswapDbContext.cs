@@ -1,9 +1,11 @@
 ﻿using Bookswap.Domain.Extensions.Entities.IEntities;
+using Bookswap.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.Extensions.Logging;
 using System.Runtime.CompilerServices;
 using System.Security.Claims;
 
@@ -12,14 +14,22 @@ namespace Bookswap.Domain.DbContext
     public class BookswapDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
     {
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ILogger logger;
 
-        public BookswapDbContext(DbContextOptions<BookswapDbContext> options, IHttpContextAccessor httpContextAccessor)
+        public BookswapDbContext(
+            DbContextOptions<BookswapDbContext> options, 
+            IHttpContextAccessor httpContextAccessor,
+            ILogger logger)
             : base(options)
         {
             this.httpContextAccessor = httpContextAccessor;
+            this.logger = logger;
         }
 
         //add DbSet entity models 
+        public DbSet<Author> Authors { get; set; }
+        public DbSet<Genre> Genres { get; set; }
+        public DbSet<Book> Books { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
