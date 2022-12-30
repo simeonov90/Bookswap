@@ -12,8 +12,8 @@ namespace Bookswap.Infrastructure.Repository
 {
     public class AuthorRepository : GenericRepository<Author, int>, IAuthorRepository
     {
-        public AuthorRepository(BookswapDbContext dbContext, ILogger logger) 
-            : base(dbContext, logger)
+        public AuthorRepository(BookswapDbContext dbContext) 
+            : base(dbContext)
         {
         }
     }
