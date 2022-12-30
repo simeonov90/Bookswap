@@ -11,19 +11,16 @@ using System.Security.Claims;
 
 namespace Bookswap.Domain.DbContext
 {
-    public class BookswapDbContext : IdentityDbContext<IdentityUser, IdentityRole, string>
+    public class BookswapDbContext : IdentityDbContext<BookswapUser, IdentityRole, string>
     {
         private readonly IHttpContextAccessor httpContextAccessor;
-        private readonly ILogger logger;
 
         public BookswapDbContext(
             DbContextOptions<BookswapDbContext> options, 
-            IHttpContextAccessor httpContextAccessor,
-            ILogger logger)
+            IHttpContextAccessor httpContextAccessor)
             : base(options)
         {
             this.httpContextAccessor = httpContextAccessor;
-            this.logger = logger;
         }
 
         //add DbSet entity models 
@@ -38,7 +35,7 @@ namespace Bookswap.Domain.DbContext
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            var entries = ChangeTracker.Entries().Where(e => e.Entity is IAuditedEntity &&
+            var entries = ChangeTracker.Entries<IAuditedEntity>().Where(e => 
             e.State == EntityState.Added ||
             e.State == EntityState.Modified ||
             e.State == EntityState.Deleted);
@@ -47,19 +44,19 @@ namespace Bookswap.Domain.DbContext
             {
                 if (entry.State == EntityState.Added)
                 {
-                    ((IAuditedEntity)entry.Entity).CreationDateTime = DateTime.Now;
-                    ((IAuditedEntity)entry.Entity).UserCreatorId = httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                    entry.Entity.CreationDateTime = DateTime.Now;
+                    entry.Entity.UserCreatorId = httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 }
 
                 if (entry.State == EntityState.Modified)
                 {
-                    ((IAuditedEntity)entry.Entity).LastModifiedDateTime = DateTime.Now;
-                    ((IAuditedEntity)entry.Entity).LastModifiedUserId = httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                    entry.Entity.LastModifiedDateTime = DateTime.Now;
+                    entry.Entity.LastModifiedUserId = httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
                 }
 
                 if (entry.State == EntityState.Deleted)
                 {
-                    ((IAuditedEntity)entry.Entity).IsDeleted = true;
+                    entry.Entity.IsDeleted = true;
                 }
             }
 
