@@ -3,6 +3,7 @@ using Bookswap.Application.Services.Accounts.Dto;
 using Bookswap.Domain.BookswapRoles;
 using Bookswap.Domain.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,16 +17,19 @@ namespace Bookswap.Application.Services.Accounts
         private readonly IMapper mapper;
         private readonly UserManager<BookswapUser> userManager;
         private readonly RoleManager<IdentityRole> roleManager;
+        private readonly ILogger<AccountService> logger;
 
         public AccountService(
             IMapper mapper, 
             UserManager<BookswapUser> userManager,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
+            ILogger<AccountService> logger
             )
         {
             this.mapper = mapper;
             this.userManager = userManager;
             this.roleManager = roleManager;
+            this.logger = logger;
         }
 
         public async Task<bool> Login(LoginDto loginDto)

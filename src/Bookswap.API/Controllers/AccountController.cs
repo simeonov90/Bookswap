@@ -10,10 +10,12 @@ namespace Bookswap.API.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IAccountService bookswapUserService;
+        private readonly ILogger<AccountController> logger;
 
-        public AccountController(IAccountService bookswapUserService)
+        public AccountController(IAccountService bookswapUserService, ILogger<AccountController> logger)
         {
             this.bookswapUserService = bookswapUserService;
+            this.logger = logger;
         }
 
         // POST: api/Account/Register
