@@ -3,6 +3,7 @@ using Bookswap.Application.Services.Authors.Dto;
 using Bookswap.Domain.Models;
 using Bookswap.Infrastructure.UOW.IUOW;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,13 @@ namespace Bookswap.Application.Services.Authors
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
+        private readonly ILogger<AuthorService> logger;
 
-        public AuthorService(IUnitOfWork unitOfWork, IMapper mapper)
+        public AuthorService(IUnitOfWork unitOfWork, IMapper mapper, ILogger<AuthorService> logger)
         {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.logger = logger;
         }
 
         public async Task<IEnumerable<AuthorDto>> GetAllAsync()

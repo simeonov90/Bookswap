@@ -10,10 +10,12 @@ namespace Bookswap.API.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService authorService;
+        private readonly ILogger<AuthorController> logger;
 
-        public AuthorController(IAuthorService authorService)
+        public AuthorController(IAuthorService authorService, ILogger<AuthorController> logger)
         {
             this.authorService = authorService;
+            this.logger = logger;
         }
 
         // GET: api/Author
