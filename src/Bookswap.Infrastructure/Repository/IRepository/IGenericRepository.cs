@@ -2,11 +2,11 @@
 {
     public interface IGenericRepository<TEntity, TKey> where TEntity : class
     {
-        IQueryable GetAllQueryable();
+        IQueryable<TEntity> GetAllQueryable();
         Task<IEnumerable<TEntity>> GetAll();
         Task<TEntity> GetById(TKey id);
         Task Add(TEntity entity);
         Task Delete(TKey id);
-        Task Update(TEntity entity, TKey key);
+        Task Update(TEntity entity);
     }
 }

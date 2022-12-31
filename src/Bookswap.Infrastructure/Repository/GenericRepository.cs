@@ -13,12 +13,10 @@ namespace Bookswap.Infrastructure.Repository
     public class GenericRepository<TEntity, TKey> : IGenericRepository<TEntity, TKey> where TEntity : class
     {
         private readonly BookswapDbContext dbContext;
-        private readonly ILogger logger;
 
-        public GenericRepository(BookswapDbContext dbContext, ILogger logger)
+        public GenericRepository(BookswapDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.logger = logger;
         }
         public async Task Add(TEntity entity)
         {
@@ -36,10 +34,10 @@ namespace Bookswap.Infrastructure.Repository
 
         public async Task<IEnumerable<TEntity>> GetAll()
         {
-            return await dbContext.Set<TEntity>().ToListAsync();
+            return await dbContext.Set<TEntity>().AsNoTracking().ToListAsync();
         }
 
-        public IQueryable GetAllQueryable()
+        public IQueryable<TEntity> GetAllQueryable()
         {
             return dbContext.Set<TEntity>();
         }
@@ -49,10 +47,8 @@ namespace Bookswap.Infrastructure.Repository
             return await dbContext.Set<TEntity>().FindAsync(id);
         }
 
-        public async Task Update(TEntity entity, TKey key)
+        public async Task Update(TEntity entity)
         {
-            var entityModel = await GetById(key);
-            if (entityModel is null) throw new ArgumentException($"There is no entity with id={key}");
             dbContext.Set<TEntity>().Update(entity);
 
             await SaveChangesAsync();
