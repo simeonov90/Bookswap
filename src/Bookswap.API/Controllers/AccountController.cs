@@ -33,7 +33,7 @@ namespace Bookswap.API.Controllers
                 return BadRequest();
             }
 
-            return Ok(createBookswapUserDto);
+            return Ok();
         }
 
         // POST: api/Account/Login
