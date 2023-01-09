@@ -9,16 +9,14 @@ namespace Bookswap.Infrastructure.UOW
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BookswapDbContext dbContext;
-        private readonly ILogger logger;
 
         public IAuthorRepository Authors { get; private set; }
 
-        public UnitOfWork(BookswapDbContext dbContext, ILogger logger)
+        public UnitOfWork(BookswapDbContext dbContext)
         {
             this.dbContext = dbContext;
-            this.logger = logger;
 
-            Authors = new AuthorRepository(dbContext, logger);
+            Authors = new AuthorRepository(dbContext);
         }
 
         public async Task<int> CompletedAsync() => await dbContext.SaveChangesAsync();
