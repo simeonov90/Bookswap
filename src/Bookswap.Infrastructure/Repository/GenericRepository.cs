@@ -21,15 +21,12 @@ namespace Bookswap.Infrastructure.Repository
         public async Task Add(TEntity entity)
         {
             await dbContext.AddAsync(entity);
-            await SaveChangesAsync();
         }
 
         public async Task Delete(TKey id)
         {
             var entity = await GetById(id);
             if (entity is null) throw new ArgumentException($"There is no entity with id={id}");
-
-            await SaveChangesAsync();
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
@@ -50,10 +47,6 @@ namespace Bookswap.Infrastructure.Repository
         public async Task Update(TEntity entity)
         {
             dbContext.Set<TEntity>().Update(entity);
-
-            await SaveChangesAsync();
         }
-
-        private async Task SaveChangesAsync() => await dbContext.SaveChangesAsync();
     }
 }

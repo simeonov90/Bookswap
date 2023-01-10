@@ -19,7 +19,7 @@ namespace Bookswap.Infrastructure.UOW
             Authors = new AuthorRepository(dbContext);
         }
 
-        public async Task<int> CompletedAsync() => await dbContext.SaveChangesAsync();
+        public async Task CompletedAsync() => await dbContext.SaveChangesAsync();
 
         public void Dispose() => dbContext.Dispose();
     }

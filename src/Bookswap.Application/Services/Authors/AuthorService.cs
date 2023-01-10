@@ -36,8 +36,10 @@ namespace Bookswap.Application.Services.Authors
             if (string.IsNullOrWhiteSpace(createAuthorDto.FullName)) throw new ArgumentException("Author name can`t be null or whitespace.");
 
             var entity = mapper.Map<Author>(createAuthorDto);
+
             await unitOfWork.Authors.Add(entity);
-            
+            await unitOfWork.CompletedAsync();
+
             return mapper.Map<AuthorDto>(entity);
         }
 
