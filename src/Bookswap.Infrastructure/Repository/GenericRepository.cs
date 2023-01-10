@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,10 +24,20 @@ namespace Bookswap.Infrastructure.Repository
             await dbContext.AddAsync(entity);
         }
 
-        public async Task Delete(TKey id)
+        public async Task Delete(TKey id, bool softdelete = true)
         {
             var entity = await GetById(id);
             if (entity is null) throw new ArgumentException($"There is no entity with id={id}");
+
+            if (softdelete is false)
+            {
+                dbContext.Set<TEntity>().Remove(entity);
+            }
+        }
+
+        public async Task<bool> Exists(Expression<Func<TEntity, bool>> expression)
+        {
+            return await dbContext.Set<TEntity>().AsNoTracking().AnyAsync(expression);
         }
 
         public async Task<IEnumerable<TEntity>> GetAll()
