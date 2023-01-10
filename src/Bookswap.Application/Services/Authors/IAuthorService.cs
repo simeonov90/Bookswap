@@ -8,6 +8,8 @@ namespace Bookswap.Application.Services.Authors
         Task<AuthorDto> GetById(int id);
         Task<AuthorDto> CreateAsync(CreateAuthorDto createAuthorDto);
         Task UpdateAsync(UpdateAuthorDto updateAuthorDto);
+        Task DeleteAsync(int id);
         Task<IEnumerable<AuthorDto>> GetByKeyword(string keyword);
+        Task<bool> Exists(int id);
     }
 }

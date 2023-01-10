@@ -1,6 +1,5 @@
 ﻿using Bookswap.Application.Services.Authors;
 using Bookswap.Application.Services.Authors.Dto;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookswap.API.Controllers
@@ -55,10 +54,33 @@ namespace Bookswap.API.Controllers
             catch (Exception ex)
             {
 
-                throw new Exception($"Something went wrong!", ex);
+                logger.LogError($"Something went wrong with Update: ${ex.Message}");
             }
 
             return NoContent();
+        }
+
+        // DELETE: api/Author/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            try
+            {
+                var isExists = await authorService.Exists(id);
+                if (isExists is false)
+                {
+                    logger.LogWarning($"Author with id={id} does not exists.");
+                    return NotFound();
+                }
+
+                await authorService.DeleteAsync(id);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError($"Something went wrong with Delete: ${ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         // GET: api/Author/keyword/searchedkeyword

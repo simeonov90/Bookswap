@@ -53,6 +53,7 @@ namespace Bookswap.Application.Services.Authors
         public async Task UpdateAsync(UpdateAuthorDto updateAuthorDto)
         {
             await unitOfWork.Authors.Update(mapper.Map<Author>(updateAuthorDto));
+            await unitOfWork.CompletedAsync();
         }
 
         public async Task<IEnumerable<AuthorDto>> GetByKeyword(string keyword)
@@ -61,6 +62,17 @@ namespace Bookswap.Application.Services.Authors
                 .Where(a => a.FullName.Contains(keyword))
                 .AsNoTracking()
                 .ToListAsync());
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await unitOfWork.Authors.Delete(id, false);
+            await unitOfWork.CompletedAsync();
+        }
+
+        public async Task<bool> Exists(int id)
+        {
+            return await unitOfWork.Authors.Exists(a => a.Id == id);
         }
     }
 }
