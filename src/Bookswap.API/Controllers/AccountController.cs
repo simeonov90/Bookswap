@@ -1,4 +1,5 @@
-﻿using Bookswap.Application.Services.Accounts;
+﻿using Bookswap.Application.Extensions.ExceptionMessages;
+using Bookswap.Application.Services.Accounts;
 using Bookswap.Application.Services.Accounts.Dto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -9,12 +10,12 @@ namespace Bookswap.API.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly IAccountService bookswapUserService;
+        private readonly IAccountService accountService;
         private readonly ILogger<AccountController> logger;
 
-        public AccountController(IAccountService bookswapUserService, ILogger<AccountController> logger)
+        public AccountController(IAccountService accountService, ILogger<AccountController> logger)
         {
-            this.bookswapUserService = bookswapUserService;
+            this.accountService = accountService;
             this.logger = logger;
         }
 
@@ -22,28 +23,57 @@ namespace Bookswap.API.Controllers
         [HttpPost("Register")]
         public async Task<ActionResult> Register([FromBody]UserDto createBookswapUserDto)
         {
-            var erros = await bookswapUserService.Register(createBookswapUserDto);
-
-            if (erros.Any())
+            logger.LogInformation($"Registration attempt for {createBookswapUserDto.Email}");
+            try
             {
-                foreach (var error in erros)
-                {
-                    ModelState.AddModelError(error.Code, error.Description);
-                }
-                return BadRequest();
-            }
+                var erros = await accountService.Register(createBookswapUserDto);
 
-            return Ok();
+                if (erros.Any())
+                {
+                    foreach (var error in erros)
+                    {
+                        ModelState.AddModelError(error.Code, error.Description);
+                    }
+                    return BadRequest();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message.SomethingWentWrong(nameof(Register)));
+                return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Register)), statusCode: 500);
+            }
+            
         }
 
         // POST: api/Account/Login
         [HttpPost("Login")]
         public async Task<ActionResult> Login([FromBody] LoginDto loginDto)
         {
-            var isValidUser = await bookswapUserService.Login(loginDto);
-            if (isValidUser is false) return Unauthorized();
+            logger.LogInformation($"Login attempt for {loginDto.UserName}");
+            try
+            {
+                var responseToken = await accountService.Login(loginDto);
+                if (responseToken is null) return Unauthorized();
 
-            return Ok();
+                return Ok(responseToken);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex.Message.SomethingWentWrong(nameof(Login)));
+                return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Login)), statusCode: 500);
+            }
+        }
+
+        // POST: api/Account/RefreshToken
+        [HttpPost("RefreshToken")]
+        public async Task<ActionResult> RefreshToken([FromBody] RequestTokenDto requestTokenDto)
+        {
+            var responseToken = await accountService.VerifyRefreshToken(requestTokenDto);
+            if (responseToken is null) return Unauthorized();
+
+            return Ok(responseToken);
         }
     }
 }

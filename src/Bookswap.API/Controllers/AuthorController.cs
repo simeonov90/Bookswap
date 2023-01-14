@@ -1,11 +1,14 @@
-﻿using Bookswap.Application.Services.Authors;
+﻿using Bookswap.Application.Extensions.ExceptionMessages;
+using Bookswap.Application.Services.Authors;
 using Bookswap.Application.Services.Authors.Dto;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookswap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService authorService;
@@ -29,14 +32,18 @@ namespace Bookswap.API.Controllers
         public async Task<ActionResult<AuthorDto>> GetAuthorById(int id)
         {
             var entity = await authorService.GetById(id);
-            if (entity is null) return NotFound();
-            
+            if (entity is null)
+            {
+                logger.LogWarning(LogWarningExceptionMessage.EntityRecordDoesNotExists(nameof(GetAuthorById), id));
+                return NotFound();
+            }
+
             return Ok(entity);
         }
 
         // POST: api/Author
         [HttpPost]
-        public async Task<ActionResult<AuthorDto>> CreateAuthor([FromBody] CreateAuthorDto createAuthorDto)
+        public async Task<ActionResult<AuthorDto>> Create([FromBody] CreateAuthorDto createAuthorDto)
         {
             return Ok(await authorService.CreateAsync(createAuthorDto));
         }
@@ -45,7 +52,11 @@ namespace Bookswap.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateAuthorDto updateAuthorDto)
         {
-            if (id != updateAuthorDto.Id) return BadRequest();
+            if (id != updateAuthorDto.Id) 
+            {
+                logger.LogWarning(LogWarningExceptionMessage.UpdateParametersAreNotSame(nameof(Update), id, updateAuthorDto.Id));
+                return BadRequest();
+            } 
 
             try
             {
@@ -53,8 +64,7 @@ namespace Bookswap.API.Controllers
             }
             catch (Exception ex)
             {
-
-                logger.LogError($"Something went wrong with Update: ${ex.Message}");
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Update), ex.Message));
             }
 
             return NoContent();
@@ -69,7 +79,7 @@ namespace Bookswap.API.Controllers
                 var isExists = await authorService.Exists(id);
                 if (isExists is false)
                 {
-                    logger.LogWarning($"Author with id={id} does not exists.");
+                    logger.LogWarning(LogWarningExceptionMessage.EntityRecordDoesNotExists(nameof(Delete), id));
                     return NotFound();
                 }
 
@@ -78,8 +88,8 @@ namespace Bookswap.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError($"Something went wrong with Delete: ${ex.Message}");
-                return StatusCode(500, "Internal server error");
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Delete), ex.Message));
+                return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Delete)), statusCode: 500);
             }
         }
 
