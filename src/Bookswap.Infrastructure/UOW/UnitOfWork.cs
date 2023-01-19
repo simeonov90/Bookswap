@@ -1,8 +1,8 @@
-﻿using Bookswap.Domain.DbContext;
+﻿using AutoMapper;
+using Bookswap.Domain.DbContext;
 using Bookswap.Infrastructure.Repository;
 using Bookswap.Infrastructure.Repository.IRepository;
 using Bookswap.Infrastructure.UOW.IUOW;
-using Microsoft.Extensions.Logging;
 
 namespace Bookswap.Infrastructure.UOW
 {
@@ -10,13 +10,16 @@ namespace Bookswap.Infrastructure.UOW
     {
         private readonly BookswapDbContext dbContext;
 
-        public IAuthorRepository Authors { get; private set; }
+        public IAuthorRepository Author { get; private set; }
 
-        public UnitOfWork(BookswapDbContext dbContext)
+        public IGenreRepository Genre  { get; private set; }
+
+
+        public UnitOfWork(BookswapDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
-
-            Authors = new AuthorRepository(dbContext);
+            Author = new AuthorRepository(dbContext, mapper);
+            Genre = new GenreRepository(dbContext, mapper);
         }
 
         public async Task CompletedAsync() => await dbContext.SaveChangesAsync();
