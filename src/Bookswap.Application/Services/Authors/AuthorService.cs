@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Bookswap.Application.Services.Authors.Dto;
 using Bookswap.Domain.Models;
+using Bookswap.Infrastructure.Extensions.Models;
 using Bookswap.Infrastructure.UOW.IUOW;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -27,8 +28,7 @@ namespace Bookswap.Application.Services.Authors
 
         public async Task<IEnumerable<AuthorDto>> GetAllAsync()
         {
-            var entites = await unitOfWork.Authors.GetAll();
-            return mapper.Map<IEnumerable<AuthorDto>>(entites);
+            return mapper.Map<IEnumerable<AuthorDto>>(await unitOfWork.Author.GetAllAsync());
         }
 
         public async Task<AuthorDto> CreateAsync(CreateAuthorDto createAuthorDto)
@@ -37,7 +37,7 @@ namespace Bookswap.Application.Services.Authors
 
             var entity = mapper.Map<Author>(createAuthorDto);
 
-            await unitOfWork.Authors.Add(entity);
+            await unitOfWork.Author.Add(entity);
             await unitOfWork.CompletedAsync();
 
             return mapper.Map<AuthorDto>(entity);
@@ -45,20 +45,20 @@ namespace Bookswap.Application.Services.Authors
 
         public async Task<AuthorDto> GetById(int id)
         {
-            var entity = await unitOfWork.Authors.GetById(id);
+            var entity = await unitOfWork.Author.GetById(id);
 
             return mapper.Map<AuthorDto>(entity);
         }
 
         public async Task UpdateAsync(UpdateAuthorDto updateAuthorDto)
         {
-            await unitOfWork.Authors.Update(mapper.Map<Author>(updateAuthorDto));
+            await unitOfWork.Author.Update(mapper.Map<Author>(updateAuthorDto));
             await unitOfWork.CompletedAsync();
         }
 
         public async Task<IEnumerable<AuthorDto>> GetByKeyword(string keyword)
         {
-            return mapper.Map<List<AuthorDto>>(await unitOfWork.Authors.GetAllQueryable()
+            return mapper.Map<List<AuthorDto>>(await unitOfWork.Author.GetAllQueryable()
                 .Where(a => a.FullName.Contains(keyword))
                 .AsNoTracking()
                 .ToListAsync());
@@ -66,13 +66,18 @@ namespace Bookswap.Application.Services.Authors
 
         public async Task DeleteAsync(int id)
         {
-            await unitOfWork.Authors.Delete(id, false);
+            await unitOfWork.Author.Delete(id, false);
             await unitOfWork.CompletedAsync();
         }
 
         public async Task<bool> Exists(int id)
         {
-            return await unitOfWork.Authors.Exists(a => a.Id == id);
+            return await unitOfWork.Author.Exists(a => a.Id == id);
+        }
+
+        public async Task<PagingPagedResult<AuthorDto>> GetAllAsync(PagingQueryParameters queryParameters)
+        {
+            return await unitOfWork.Author.GetAllAsync<AuthorDto>(queryParameters);
         }
     }
 }
