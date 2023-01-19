@@ -1,7 +1,6 @@
 ﻿using Bookswap.Application.Extensions.ExceptionMessages;
 using Bookswap.Application.Services.Accounts;
 using Bookswap.Application.Services.Accounts.Dto;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Bookswap.API.Controllers
@@ -41,7 +40,7 @@ namespace Bookswap.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message.SomethingWentWrong(nameof(Register)));
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Register), ex.Message)); 
                 return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Register)), statusCode: 500);
             }
             
@@ -61,7 +60,7 @@ namespace Bookswap.API.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex.Message.SomethingWentWrong(nameof(Login)));
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Login), ex.Message));
                 return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Login)), statusCode: 500);
             }
         }

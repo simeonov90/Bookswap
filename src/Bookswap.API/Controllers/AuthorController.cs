@@ -1,6 +1,7 @@
 ﻿using Bookswap.Application.Extensions.ExceptionMessages;
 using Bookswap.Application.Services.Authors;
 using Bookswap.Application.Services.Authors.Dto;
+using Bookswap.Infrastructure.Extensions.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,10 +22,17 @@ namespace Bookswap.API.Controllers
         }
 
         // GET: api/Author
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors()
         {
             return Ok(await authorService.GetAllAsync());
+        }
+
+        // GET: api/Author/?StartIndex=0&PageSize=10&PageNumber=1
+        [HttpGet]
+        public async Task<ActionResult<PagingPagedResult<AuthorDto>>> GetPagedAuthors([FromQuery] PagingQueryParameters queryParameters)
+        {
+            return Ok(await authorService.GetAllAsync(queryParameters));
         }
 
         // GET: api/Author/5
