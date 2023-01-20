@@ -1,14 +1,9 @@
 ﻿using AutoMapper;
-using Bookswap.Application.Services.Authors.Dto;
 using Bookswap.Application.Services.Genres.Dto;
 using Bookswap.Domain.Models;
+using Bookswap.Infrastructure.Extensions.Models;
 using Bookswap.Infrastructure.UOW.IUOW;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bookswap.Application.Services.Genres
 {
@@ -24,6 +19,7 @@ namespace Bookswap.Application.Services.Genres
             this.mapper = mapper;
             this.logger = logger;
         }
+
         public async Task<GenreDto> CreateAsync(CreateGenreDto createGenreDto)
         {
             if (string.IsNullOrWhiteSpace(createGenreDto.Name)) throw new ArgumentException("Genre name can`t be null or whitespace.");
@@ -36,14 +32,15 @@ namespace Bookswap.Application.Services.Genres
             return mapper.Map<GenreDto>(entity);
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            await unitOfWork.Genre.Delete(id, false);
+            await unitOfWork.CompletedAsync();
         }
 
-        public Task<bool> Exists(int id)
+        public async Task<bool> Exists(int id)
         {
-            throw new NotImplementedException();
+            return await unitOfWork.Genre.Exists(e => e.Id == id);
         }
 
         public async Task<IEnumerable<GenreDto>> GetAllAsync()
@@ -51,19 +48,20 @@ namespace Bookswap.Application.Services.Genres
             return mapper.Map<IEnumerable<GenreDto>>(await unitOfWork.Genre.GetAllAsync());
         }
 
-        public Task<GenreDto> GetById(int id)
+        public async Task<PagingPagedResult<GenreDto>> GetAllAsync(PagingQueryParameters queryParameters)
         {
-            throw new NotImplementedException();
+            return await unitOfWork.Genre.GetAllAsync<GenreDto>(queryParameters);
         }
 
-        public Task<IEnumerable<GenreDto>> GetByKeyword(string keyword)
+        public async Task<GenreDto> GetById(int id)
         {
-            throw new NotImplementedException();
+            return mapper.Map<GenreDto>(await unitOfWork.Genre.GetById(id));
         }
 
-        public Task UpdateAsync(UpdateGenreDto updateAuthorDto)
+        public async Task UpdateAsync(UpdateGenreDto updateAuthorDto)
         {
-            throw new NotImplementedException();
+            await unitOfWork.Genre.Update(mapper.Map<Genre>(updateAuthorDto));
+            await unitOfWork.CompletedAsync();
         }
     }
 }

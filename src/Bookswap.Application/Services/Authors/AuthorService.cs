@@ -45,23 +45,13 @@ namespace Bookswap.Application.Services.Authors
 
         public async Task<AuthorDto> GetById(int id)
         {
-            var entity = await unitOfWork.Author.GetById(id);
-
-            return mapper.Map<AuthorDto>(entity);
+            return mapper.Map<AuthorDto>(await unitOfWork.Author.GetById(id));
         }
 
         public async Task UpdateAsync(UpdateAuthorDto updateAuthorDto)
         {
             await unitOfWork.Author.Update(mapper.Map<Author>(updateAuthorDto));
             await unitOfWork.CompletedAsync();
-        }
-
-        public async Task<IEnumerable<AuthorDto>> GetByKeyword(string keyword)
-        {
-            return mapper.Map<List<AuthorDto>>(await unitOfWork.Author.GetAllQueryable()
-                .Where(a => a.FullName.Contains(keyword))
-                .AsNoTracking()
-                .ToListAsync());
         }
 
         public async Task DeleteAsync(int id)

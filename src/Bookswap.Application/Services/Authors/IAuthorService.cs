@@ -1,17 +1,9 @@
 ﻿using Bookswap.Application.Services.Authors.Dto;
-using Bookswap.Infrastructure.Extensions.Models;
+using Bookswap.Application.Services.Shared;
 
 namespace Bookswap.Application.Services.Authors
 {
-    public interface IAuthorService
+    public interface IAuthorService : IBaseService<AuthorDto, CreateAuthorDto, UpdateAuthorDto, int>
     {
-        Task<IEnumerable<AuthorDto>> GetAllAsync();
-        Task<PagingPagedResult<AuthorDto>> GetAllAsync(PagingQueryParameters queryParameters);
-        Task<AuthorDto> GetById(int id);
-        Task<AuthorDto> CreateAsync(CreateAuthorDto createAuthorDto);
-        Task UpdateAsync(UpdateAuthorDto updateAuthorDto);
-        Task DeleteAsync(int id);
-        Task<IEnumerable<AuthorDto>> GetByKeyword(string keyword);
-        Task<bool> Exists(int id);
     }
 }
