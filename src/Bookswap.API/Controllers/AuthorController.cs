@@ -22,14 +22,14 @@ namespace Bookswap.API.Controllers
         }
 
         // GET: api/Author
-        [HttpGet("GetAll")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthors()
         {
             return Ok(await authorService.GetAllAsync());
         }
 
         // GET: api/Author/?StartIndex=0&PageSize=10&PageNumber=1
-        [HttpGet]
+        [HttpGet($"{nameof(GetPagedAuthors)}")]
         public async Task<ActionResult<PagingPagedResult<AuthorDto>>> GetPagedAuthors([FromQuery] PagingQueryParameters queryParameters)
         {
             return Ok(await authorService.GetAllAsync(queryParameters));
@@ -99,13 +99,6 @@ namespace Bookswap.API.Controllers
                 logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Delete), ex.Message));
                 return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Delete)), statusCode: 500);
             }
-        }
-
-        // GET: api/Author/keyword/searchedkeyword
-        [HttpGet("keyword/{keyword}")]
-        public async Task<ActionResult<IEnumerable<AuthorDto>>> GetAuthorsByKeyword(string keyword)
-        {
-            return Ok(await authorService.GetByKeyword(keyword));
         }
     }
 }
