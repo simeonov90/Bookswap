@@ -10,8 +10,5 @@ namespace Bookswap.Domain.Models
         public string Description { get; set; }
         public string FileExtension { get; set; }
         public decimal Size { get; set; }
-        //public int BookId { get; set; }
-        //[ForeignKey(nameof(BookId))]
-        //public Book Book { get; set; }
     }
 }
