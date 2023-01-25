@@ -6,6 +6,7 @@ namespace Bookswap.Infrastructure.UOW.IUOW
     {
         IAuthorRepository Author { get; }
         IGenreRepository Genre { get; }
+        ICoverRepository Cover { get; }
         Task CompletedAsync();
     }
 }
