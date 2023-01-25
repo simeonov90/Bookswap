@@ -1,11 +1,6 @@
 ﻿using Bookswap.Domain.Extensions.Entities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bookswap.Domain.Models
 {
@@ -22,6 +17,9 @@ namespace Bookswap.Domain.Models
         public int GenreId { get; set; }
         [ForeignKey(nameof(GenreId))]
         public Genre Genre { get; set; }
+        public Guid CoverId { get; set; }
+        [ForeignKey(nameof(CoverId))]
+        public Cover Cover { get; set; }
 
     }
 }

@@ -4,6 +4,7 @@ using Bookswap.Domain.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bookswap.Domain.Migrations
 {
     [DbContext(typeof(BookswapDbContext))]
-    partial class BookswapDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230122110734_Covers")]
+    partial class Covers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -50,9 +52,6 @@ namespace Bookswap.Domain.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("CoverId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<DateTime>("CreationDateTime")
                         .HasColumnType("datetime2");
 
@@ -82,8 +81,6 @@ namespace Bookswap.Domain.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
-
-                    b.HasIndex("CoverId");
 
                     b.HasIndex("GenreId");
 
@@ -345,14 +342,8 @@ namespace Bookswap.Domain.Migrations
             modelBuilder.Entity("Bookswap.Domain.Models.Book", b =>
                 {
                     b.HasOne("Bookswap.Domain.Models.Author", "Author")
-                        .WithMany("Books")
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Bookswap.Domain.Models.Cover", "Cover")
                         .WithMany()
-                        .HasForeignKey("CoverId")
+                        .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -363,8 +354,6 @@ namespace Bookswap.Domain.Migrations
                         .IsRequired();
 
                     b.Navigation("Author");
-
-                    b.Navigation("Cover");
 
                     b.Navigation("Genre");
                 });
@@ -418,11 +407,6 @@ namespace Bookswap.Domain.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Bookswap.Domain.Models.Author", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

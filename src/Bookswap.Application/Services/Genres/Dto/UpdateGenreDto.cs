@@ -1,13 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Bookswap.Application.Services.Authors.Dto
+namespace Bookswap.Application.Services.Genres.Dto
 {
-    public class UpdateAuthorDto
+    public class UpdateGenreDto
     {
         [Required]
         public int Id { get; set; }
         [Required]
         [StringLength(30)]
-        public string FullName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -5,11 +5,12 @@ using Bookswap.Infrastructure.Repository.IRepository;
 
 namespace Bookswap.Infrastructure.Repository
 {
-    public class AuthorRepository : GenericRepository<Author, int>, IAuthorRepository
+    public class CoverRepository : GenericRepository<Cover, Guid>, ICoverRepository
     {
-        public AuthorRepository(BookswapDbContext dbContext, IMapper mapper) 
-            : base(dbContext, mapper)
+        public CoverRepository(BookswapDbContext dbContext, IMapper mapper)
+            :base(dbContext, mapper)
         {
+            
         }
     }
 }

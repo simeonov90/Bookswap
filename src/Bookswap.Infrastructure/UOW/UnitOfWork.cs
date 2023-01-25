@@ -1,27 +1,30 @@
-﻿using Bookswap.Domain.DbContext;
+﻿using AutoMapper;
+using Bookswap.Domain.DbContext;
 using Bookswap.Infrastructure.Repository;
 using Bookswap.Infrastructure.Repository.IRepository;
 using Bookswap.Infrastructure.UOW.IUOW;
-using Microsoft.Extensions.Logging;
 
 namespace Bookswap.Infrastructure.UOW
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly BookswapDbContext dbContext;
-        private readonly ILogger logger;
 
-        public IAuthorRepository Authors { get; private set; }
+        public IAuthorRepository Author { get; private set; }
 
-        public UnitOfWork(BookswapDbContext dbContext, ILogger logger)
+        public IGenreRepository Genre  { get; private set; }
+
+        public ICoverRepository Cover { get; private set; }
+
+        public UnitOfWork(BookswapDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
-            this.logger = logger;
-
-            Authors = new AuthorRepository(dbContext, logger);
+            Author = new AuthorRepository(dbContext, mapper);
+            Genre = new GenreRepository(dbContext, mapper);
+            Cover = new CoverRepository(dbContext, mapper);
         }
 
-        public async Task<int> CompletedAsync() => await dbContext.SaveChangesAsync();
+        public async Task CompletedAsync() => await dbContext.SaveChangesAsync();
 
         public void Dispose() => dbContext.Dispose();
     }

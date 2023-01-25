@@ -4,7 +4,9 @@ namespace Bookswap.Infrastructure.UOW.IUOW
 {
     public interface IUnitOfWork : IDisposable
     {
-        IAuthorRepository Authors { get; }
-        Task<int> CompletedAsync();
+        IAuthorRepository Author { get; }
+        IGenreRepository Genre { get; }
+        ICoverRepository Cover { get; }
+        Task CompletedAsync();
     }
 }
