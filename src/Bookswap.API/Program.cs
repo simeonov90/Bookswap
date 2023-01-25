@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Bookswap.Application.Services.Genres;
+using Bookswap.Application.Services.Covers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,7 @@ builder.Services.AddScoped<IGenreRepository, GenreRepository>();
 builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
+builder.Services.AddTransient<ICoverService, CoverService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BookswapDbContext>(options =>
