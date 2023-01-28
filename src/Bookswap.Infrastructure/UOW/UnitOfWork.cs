@@ -16,12 +16,15 @@ namespace Bookswap.Infrastructure.UOW
 
         public ICoverRepository Cover { get; private set; }
 
+        public IBookRepository Book { get; private set; }
+
         public UnitOfWork(BookswapDbContext dbContext, IMapper mapper)
         {
             this.dbContext = dbContext;
             Author = new AuthorRepository(dbContext, mapper);
             Genre = new GenreRepository(dbContext, mapper);
             Cover = new CoverRepository(dbContext, mapper);
+            Book = new BookRepository(dbContext, mapper);
         }
 
         public async Task CompletedAsync() => await dbContext.SaveChangesAsync();
