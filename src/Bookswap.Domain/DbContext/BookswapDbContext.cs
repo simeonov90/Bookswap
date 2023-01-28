@@ -46,13 +46,13 @@ namespace Bookswap.Domain.DbContext
                 if (entry.State == EntityState.Added)
                 {
                     entry.Entity.CreationDateTime = DateTime.Now;
-                    entry.Entity.UserCreatorId = httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                    entry.Entity.UserCreatorId = httpContextAccessor?.HttpContext?.User?.FindFirstValue("uid");
                 }
 
                 if (entry.State == EntityState.Modified)
                 {
                     entry.Entity.LastModifiedDateTime = DateTime.Now;
-                    entry.Entity.LastModifiedUserId = httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+                    entry.Entity.LastModifiedUserId = httpContextAccessor?.HttpContext?.User?.FindFirstValue("uid");
                 }
 
                 if (entry.State == EntityState.Deleted)
