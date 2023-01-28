@@ -4,6 +4,7 @@ using Bookswap.Application.Services.Accounts.Dto;
 using Bookswap.Domain.Models;
 using Bookswap.Application.Services.Genres.Dto;
 using Bookswap.Application.Services.Covers.Dto;
+using Bookswap.Application.Services.Books.Dtos;
 
 namespace Bookswap.Application.AutoMapperProfiles
 {
@@ -24,6 +25,10 @@ namespace Bookswap.Application.AutoMapperProfiles
             CreateMap<CreateCoverDto, Cover>();
             CreateMap<UpdateCoverDto, Cover>();
             CreateMap<Cover, CoverDto>();
+
+            CreateMap<CreateBookDto, Book>();
+            CreateMap<UpdateBookDto, Book>();
+            CreateMap<Book, BookDto>();
         }
     }
 }
