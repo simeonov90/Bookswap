@@ -102,9 +102,13 @@ namespace Bookswap.Application.Services.Books
 
         public async Task<BookDto> GetById(int id)
         {
-            var dbTest = await bookswapDbContext.Books.FindAsync(id);
-            var test = await unitOfWork.Book.GetById(id);
-            return mapper.Map<BookDto>(await unitOfWork.Book.GetById(id));
+            return mapper.Map<BookDto>(
+                await unitOfWork.Book.GetAllQueryable()
+                    .Where(b => b.Id == id)
+                    .Include(b => b.Author)
+                    .Include(b => b.Genre)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync());
         }
 
         public async Task UpdateAsync(UpdateBookDto updateBookDto)
