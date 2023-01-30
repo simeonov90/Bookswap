@@ -17,9 +17,5 @@ namespace Bookswap.Domain.Models
         public int GenreId { get; set; }
         [ForeignKey(nameof(GenreId))]
         public Genre Genre { get; set; }
-        public Guid CoverId { get; set; }
-        [ForeignKey(nameof(CoverId))]
-        public Cover Cover { get; set; }
-
     }
 }

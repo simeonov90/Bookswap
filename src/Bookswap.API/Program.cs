@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Bookswap.Application.Services.Genres;
 using Bookswap.Application.Services.Covers;
+using Bookswap.Application.Services.Books;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,7 @@ builder.Services.AddTransient<IAuthorService, AuthorService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IGenreService, GenreService>();
 builder.Services.AddTransient<ICoverService, CoverService>();
+builder.Services.AddTransient<IBookService, BookService>();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<BookswapDbContext>(options =>

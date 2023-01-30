@@ -2,12 +2,12 @@
 
 namespace Bookswap.Domain.Extensions.Entities
 {
-    public class AuditedEntity : IAuditedEntity
+    public abstract class AuditedEntity : IAuditedEntity
     {
-        public string? UserCreatorId { get; set; }
-        public DateTime CreationDateTime { get; set; }
-        public string? LastModifiedUserId { get; set; }
-        public DateTime? LastModifiedDateTime { get; set; }
-        public bool IsDeleted { get; set; }
+        public virtual string? UserCreatorId { get; set; }
+        public virtual DateTime CreationDateTime { get; set; }
+        public virtual string? LastModifiedUserId { get; set; }
+        public virtual DateTime? LastModifiedDateTime { get; set; }
+        public virtual bool IsDeleted { get; set; }
     }
 }

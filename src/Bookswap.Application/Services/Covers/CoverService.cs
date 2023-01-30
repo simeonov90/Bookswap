@@ -50,6 +50,12 @@ namespace Bookswap.Application.Services.Covers
                             FileExtension = fileExtension
                         };
 
+                        if(await Exists(entity.Id))
+                        {
+                            await unitOfWork.Cover.Delete(entity.Id, false);
+                            await unitOfWork.CompletedAsync();
+                        }
+
                         await unitOfWork.Cover.Add(entity);
                         await unitOfWork.CompletedAsync();
 
