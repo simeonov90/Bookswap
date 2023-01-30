@@ -1,1 +1,77 @@
-<p>signup works!</p>
+<div class="signup-container">
+  <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" novalidate>
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+      <input
+        type="text"
+        id="form2Example1"
+        class="form-control"
+        formControlName="userName"
+      />
+      <label class="form-label" for="form2Example1">Username</label>
+    </div>
+    <div class="form-outline mb-4">
+      <input
+        type="text"
+        id="form2Example1"
+        class="form-control"
+        formControlName="firstName"
+      />
+      <label class="form-label" for="form2Example1">Firstname</label>
+    </div>
+    <div class="form-outline mb-4">
+      <input
+        type="text"
+        id="form2Example1"
+        class="form-control"
+        formControlName="lastName"
+      />
+      <label class="form-label" for="form2Example1">Lastname</label>
+    </div>
+    <div class="form-outline mb-4">
+      <input
+        type="number"
+        id="form2Example1"
+        class="form-control"
+        formControlName="age"
+      />
+      <label class="form-label" for="form2Example1">Age</label>
+    </div>
+    <div class="form-outline mb-4">
+      <input
+        type="email"
+        id="form2Example1"
+        class="form-control"
+        formControlName="email"
+      />
+      <label class="form-label" for="form2Example1">Email</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+      <input
+        type="password"
+        id="form2Example2"
+        class="form-control"
+        formControlName="password"
+      />
+      <label class="form-label" for="form2Example2">Password</label>
+    </div>
+    <div class="form-outline mb-4">
+        <input
+          type="password"
+          id="form2Example2"
+          class="form-control"
+          formControlName="confirmPassword"
+        />
+        <label class="form-label" for="form2Example2">ConfirmPassword</label>
+      </div>
+    <!-- Submit button -->
+    <button
+      type="submit"
+      class="btn btn-primary btn-block mb-4"
+    >
+      Register
+    </button>
+  </form>
+</div>
