@@ -4,11 +4,13 @@ using Bookswap.Application.Services.Covers.Dto;
 using Bookswap.Application.Extensions.ExceptionMessages;
 using Bookswap.Application.Services.Authors.Dto;
 using Bookswap.Application.Services.Authors;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Bookswap.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CoverController : ControllerBase
     {
         private readonly ICoverService coverService;

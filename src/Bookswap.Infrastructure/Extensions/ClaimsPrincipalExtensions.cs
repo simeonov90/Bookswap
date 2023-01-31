@@ -6,7 +6,7 @@ namespace Bookswap.Infrastructure.Extensions
     {
         public static string CurrentUserId(this ClaimsPrincipal claimsPrincipal)
         {
-            return claimsPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
+            return claimsPrincipal.FindFirstValue("uid");
         }
     }
 }
