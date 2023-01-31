@@ -167,9 +167,6 @@ namespace Bookswap.Domain.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
                     b.Property<byte[]>("Bytes")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -186,8 +183,6 @@ namespace Bookswap.Domain.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BookId");
 
                     b.ToTable("Covers");
                 });
@@ -361,17 +356,6 @@ namespace Bookswap.Domain.Migrations
                     b.Navigation("Genre");
                 });
 
-            modelBuilder.Entity("Bookswap.Domain.Models.Cover", b =>
-                {
-                    b.HasOne("Bookswap.Domain.Models.Book", "Book")
-                        .WithMany("Covers")
-                        .HasForeignKey("BookId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Book");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -426,11 +410,6 @@ namespace Bookswap.Domain.Migrations
             modelBuilder.Entity("Bookswap.Domain.Models.Author", b =>
                 {
                     b.Navigation("Books");
-                });
-
-            modelBuilder.Entity("Bookswap.Domain.Models.Book", b =>
-                {
-                    b.Navigation("Covers");
                 });
 
             modelBuilder.Entity("Bookswap.Domain.Models.Genre", b =>
