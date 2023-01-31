@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Bookswap.Domain.Models
 {
@@ -10,5 +11,8 @@ namespace Bookswap.Domain.Models
         public string Description { get; set; }
         public string FileExtension { get; set; }
         public decimal Size { get; set; }
+        public int BookId { get; set; }
+        [ForeignKey(nameof(BookId))]
+        public virtual Book Book { get; set; }
     }
 }
