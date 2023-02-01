@@ -25,11 +25,11 @@ namespace Bookswap.API.Controllers
             logger.LogInformation($"Registration attempt for {createBookswapUserDto.Email}");
             try
             {
-                var erros = await accountService.Register(createBookswapUserDto);
+                var errors = await accountService.Register(createBookswapUserDto);
 
-                if (erros.Any())
+                if (errors.Any())
                 {
-                    foreach (var error in erros)
+                    foreach (var error in errors)
                     {
                         ModelState.AddModelError(error.Code, error.Description);
                     }
