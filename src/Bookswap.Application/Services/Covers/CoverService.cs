@@ -47,7 +47,8 @@ namespace Bookswap.Application.Services.Covers
                             Bytes = memoryStream.ToArray(),
                             Size = memoryStream.Length,
                             Description = createCoverDto.FormFile.FileName,
-                            FileExtension = fileExtension
+                            FileExtension = fileExtension,
+                            BookId = createCoverDto.BookId
                         };
 
                         if(await Exists(entity.Id))
@@ -66,7 +67,8 @@ namespace Bookswap.Application.Services.Covers
                             Bytes = entity.Bytes,
                             Description = entity.Description,
                             FileExtension = entity.FileExtension,
-                            ReadableFileSize = HumanReadableFileSize.ReadableFileSize(memoryStream.Length)
+                            ReadableFileSize = HumanReadableFileSize.ReadableFileSize(memoryStream.Length),
+                            BookId = entity.BookId
                         };
                     }
 

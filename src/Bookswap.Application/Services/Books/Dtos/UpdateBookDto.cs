@@ -14,6 +14,5 @@ namespace Bookswap.Application.Services.Books.Dtos
         public string Description { get; set; }
         public int AuthorId { get; set; }
         public int GenreId { get; set; }
-        public Guid CoverId { get; set; }
     }
 }

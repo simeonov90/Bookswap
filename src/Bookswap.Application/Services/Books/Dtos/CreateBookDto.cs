@@ -7,6 +7,5 @@
         public int? AuthorId { get; set; }
         public string AuthorName { get; set; }
         public int GenreId { get; set; }
-        public Guid? CoverId { get; set; }
     }
 }
