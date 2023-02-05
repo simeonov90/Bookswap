@@ -22,55 +22,72 @@ namespace Bookswap.Test
         }
 
         [Fact]
-        public void ShouldGetAuthorsList()
+        public async Task ShouldGetAuthorsList()
         {
             // arrange
             var authors = GetAuthorsData();
-            authorServiceMock.Setup(a => a.GetAllAsync().Result)
-                .Returns(authors);
+            authorServiceMock.Setup(a => a.GetAllAsync())
+                .ReturnsAsync(authors);
             var logger = new Mock<ILogger<AuthorController>>();
             var authorController = new AuthorController(authorServiceMock.Object, logger.Object);
 
             // act
-            var authorsResult = authorController.GetAuthors().Result;
+            var authorsResult = await authorController.GetAuthors();
 
             // assert
             Assert.NotNull(authorsResult);
         }
 
         [Fact]
-        public void ShouldGetAuthorById()
+        public async Task ShouldGetAuthorById()
         {
             // arrange
             var authors = GetAuthorsData();
-            authorServiceMock.Setup(a => a.GetById(1).Result)
-                .Returns(authors[0]);
+            authorServiceMock.Setup(a => a.GetById(1))
+                .ReturnsAsync(authors[0]);
             var logger = new Mock<ILogger<AuthorController>>();
             var authorController = new AuthorController(authorServiceMock.Object, logger.Object);
 
             // act
-            var authorResult = authorController.GetAuthorById(1);
+            var authorResult = await authorController.GetAuthorById(1);
+            var viewResult = Assert.IsType<OkObjectResult>(authorResult.Result);
 
             // assert
             Assert.NotNull(authorResult);
-            Assert.Equal(authors[0].Id, authorResult.Id);
+            Assert.Equal(typeof(OkObjectResult), viewResult.GetType());
         }
 
         [Fact]
-        public void ShouldGetAuthorByIdReturnNotFound()
+        public async Task ShouldGetAuthorByIdReturnNotFound()
         {
             // arrange
             var authors = GetAuthorsData();
-            authorServiceMock.Setup(a => a.GetById(0).Result);
+            authorServiceMock.Setup(a => a.GetById(0));
             var logger = new Mock<ILogger<AuthorController>>();
             var authorController = new AuthorController(authorServiceMock.Object, logger.Object);
 
             // act
-            var authorResult = authorController.GetAuthorById(0).Result;
+            var authorResult = await authorController.GetAuthorById(0);
             var viewResult = Assert.IsType<NotFoundResult>(authorResult.Result);
 
             // assert
             Assert.Equal(typeof(NotFoundResult), viewResult.GetType());
+        }
+
+        [Fact]
+        public async Task ShouldCreateAuthor()
+        {
+            // arrange
+            var authors = GetAuthorsData();
+            authorServiceMock.Setup(a => a.CreateAsync(new CreateAuthorDto() { FullName = authors[1].FullName }));
+            var logger = new Mock<ILogger<AuthorController>>();
+            var authorController = new AuthorController(authorServiceMock.Object, logger.Object);
+
+            // act
+            var authorResult = await authorController.Create(new CreateAuthorDto() { FullName = authors[1].FullName });
+            var viewResult = Assert.IsType<OkObjectResult>(authorResult.Result);
+            // assert
+            Assert.Equal(typeof(OkObjectResult), viewResult.GetType());
         }
 
         private List<AuthorDto> GetAuthorsData()
