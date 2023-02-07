@@ -8,7 +8,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:6.0@sha256:b40939dddbea23e939af225cab4b30df01afc47ce1e8beb1f7f249aaca8babcc AS build
 WORKDIR /src
 COPY ["src/Bookswap.API/Bookswap.API.csproj", "src/Bookswap.API/"]
 COPY ["src/Bookswap.Application/Bookswap.Application.csproj", "src/Bookswap.Application/"]
