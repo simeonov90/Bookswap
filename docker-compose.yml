@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  bookswap.api:
+    image: ${DOCKER_REGISTRY-}bookswapapi
+    build:
+      context: .
+      dockerfile: src/Bookswap.API/Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - db
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    ports:
+      - "1433:1433"
+
+    environment:
+        SA_PASSWORD: "RPSsql12345"
+        ACCEPT_EULA: "Y"
