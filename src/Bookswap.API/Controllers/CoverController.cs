@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Bookswap.Application.Services.Covers.Dto;
 using Bookswap.Application.Extensions.ExceptionMessages;
-using Bookswap.Application.Services.Authors.Dto;
-using Bookswap.Application.Services.Authors;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Bookswap.API.Controllers
@@ -26,7 +24,6 @@ namespace Bookswap.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromForm] CreateCoverDto createCoverDto)
         {
-
             try
             {
                 var coverDto = await coverService.CreateAsync(createCoverDto);

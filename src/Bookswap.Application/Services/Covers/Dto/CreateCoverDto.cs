@@ -7,5 +7,6 @@ namespace Bookswap.Application.Services.Covers.Dto
     {
         [Required]
         public IFormFile FormFile { get; set; }
+        public int BookId { get; set; }
     }
 }

@@ -55,7 +55,16 @@ namespace Bookswap.API.Controllers
         [HttpPost]
         public async Task<ActionResult<GenreDto>> Create([FromBody] CreateGenreDto createGenreDto)
         {
-            return Ok(await genreService.CreateAsync(createGenreDto));
+            try
+            {
+                return Ok(await genreService.CreateAsync(createGenreDto));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Create), ex.Message));
+                return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Create)), statusCode: 500);
+            }
+            
         }
 
         // PUT: api/Genre/5
