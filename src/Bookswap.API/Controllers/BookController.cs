@@ -31,9 +31,9 @@ namespace Bookswap.API.Controllers
             return Ok(await bookService.GetAllAsync());
         }
 
-        // GET: api/Book/GetPagedAuthors/?StartIndex=0&PageSize=10&PageNumber=1
-        [HttpGet($"{nameof(GetPagedAuthors)}")]
-        public async Task<ActionResult<PagingPagedResult<BookDto>>> GetPagedAuthors([FromQuery] PagingQueryParameters queryParameters)
+        // GET: api/Book/GetPagedBooks/?StartIndex=0&PageSize=10&PageNumber=1
+        [HttpGet($"{nameof(GetPagedBooks)}")]
+        public async Task<ActionResult<PagingPagedResult<BookDto>>> GetPagedBooks([FromQuery] PagingQueryParameters queryParameters)
         {
             return Ok(await bookService.GetAllAsync(queryParameters));
         }
@@ -56,7 +56,15 @@ namespace Bookswap.API.Controllers
         [HttpPost]
         public async Task<ActionResult<BookDto>> Create([FromBody] CreateBookDto createBookDto)
         {
-            return Ok(await bookService.CreateAsync(createBookDto));
+            try
+            {
+                return Ok(await bookService.CreateAsync(createBookDto));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Create), ex.Message));
+                return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Create)), statusCode: 500);
+            }
         }
 
         // PUT: api/Book/5

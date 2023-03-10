@@ -53,7 +53,15 @@ namespace Bookswap.API.Controllers
         [HttpPost]
         public async Task<ActionResult<AuthorDto>> Create([FromBody] CreateAuthorDto createAuthorDto)
         {
-            return Ok(await authorService.CreateAsync(createAuthorDto));
+            try
+            {
+                return Ok(await authorService.CreateAsync(createAuthorDto));
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(LogErrorExcepitonMessage.SomethingWentWrong(nameof(Create), ex.Message));
+                return Problem(CommonExceptionMessage.SomethingWentWrongContactSupport(nameof(Create)), statusCode: 500);
+            }
         }
 
         // PUT: api/Author/5
