@@ -8,18 +8,17 @@ import { SignupComponent } from './components/account/signup/signup.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BookComponent } from './components/book/book/book.component';
+import { BookComponent } from './components/book/book.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import { DialogButton } from './components/shared/dialog-button/dialog-button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignupComponent,
-    BookComponent,
+    BookComponent
   ],
   imports: [
     BrowserModule,
@@ -29,8 +28,7 @@ import { DialogButton } from './components/shared/dialog-button/dialog-button.co
     FormsModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatButtonModule,
-    DialogButton
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
